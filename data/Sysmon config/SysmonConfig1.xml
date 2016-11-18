@@ -1,0 +1,178 @@
+<Sysmon schemaversion="3.10">
+  <!-- Capture all hashes -->
+  <HashAlgorithms>MD5</HashAlgorithms>
+  <EventFiltering>
+	<RawAccessRead onmatch="exclude"></RawAccessRead>
+	
+	<ProcessCreate onmatch="exclude">
+		<Image condition="end with">windows\system32\conhost.exe</Image>
+		<Image condition="end with">windows\System32\SearchFilterHost.exe</Image>
+		<Image condition="end with">Windows\System32\SearchProtocolHost.exe</Image>
+		<Image condition="end with">Windows\System32\dllhost.exe</Image>
+		<Image condition="end with">Windows\System32\audiodg.exe</Image>
+		<Image condition="end with">Windows\System32\msiexec.exe</Image>
+		<Image condition="end with">Windows\Sysmon.exe</Image>
+		<Image condition="end with">Windows\System32\wbem\WmiPrvSE.exe</Image>
+		<Image condition="end with">windows\system32\LogonUI.exe</Image>
+		<Image condition="end with">Windows\System32\winlogon.exe</Image>
+		<Image condition="end with">windows\system32\svchost.exe</Image>
+		<Image condition="end with">windows\system32\services.exe</Image>
+		<Image condition="end with">windows\explorer.exe</Image>
+		<Image condition="end with">windows\system32\lsass.exe</Image>
+		<Image condition="end with">Windows\System32\taskeng.exe</Image>
+		<Image condition="end with">Windows\System32\taskhost.exe</Image>
+		<Image condition="end with">Google\Update\GoogleUpdate.exe</Image>
+		<Image condition="end with">autorunsc.exe</Image>
+		<Image condition="end with">Windows\System32\consent.exe</Image>
+	</ProcessCreate>
+	<ProcessTerminate onmatch="exclude">
+		<Image condition="end with">windows\system32\conhost.exe</Image>
+		<Image condition="end with">windows\System32\SearchFilterHost.exe</Image>
+		<Image condition="end with">Windows\System32\SearchProtocolHost.exe</Image>
+		<Image condition="end with">Windows\System32\dllhost.exe</Image>
+		<Image condition="end with">Windows\System32\audiodg.exe</Image>
+		<Image condition="end with">Windows\System32\msiexec.exe</Image>
+		<Image condition="end with">Windows\Sysmon.exe</Image>
+		<Image condition="end with">Windows\System32\wbem\WmiPrvSE.exe</Image>
+		<Image condition="end with">windows\system32\LogonUI.exe</Image>
+		<Image condition="end with">Windows\System32\winlogon.exe</Image>
+		<Image condition="end with">windows\system32\svchost.exe</Image>
+		<Image condition="end with">windows\system32\services.exe</Image>
+		<Image condition="end with">windows\explorer.exe</Image>
+		<Image condition="end with">windows\system32\lsass.exe</Image>
+		<Image condition="end with">Windows\System32\taskeng.exe</Image>
+		<Image condition="end with">Windows\System32\taskhost.exe</Image>
+		<Image condition="end with">Google\Update\GoogleUpdate.exe</Image>
+		<Image condition="end with">autorunsc.exe</Image>
+		<Image condition="end with">Windows\System32\consent.exe</Image>
+	</ProcessTerminate>
+	
+	<ProcessAccess onmatch="exclude">
+		<SourceImage condition="end with">windows\system32\taskmgr.exe</SourceImage>
+		<SourceImage condition="end with">windows\explorer.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\services.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\svchost.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\wbem\wmiprvse.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\lsass.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\LogonUI.exe</SourceImage>
+		<SourceImage condition="end with">VMware\VMware Tools\vmtoolsd.exe</SourceImage>
+		<SourceImage condition="end with">Google\Update\GoogleUpdate.exe</SourceImage>
+		<SourceImage condition="end with">autorunsc.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\wininit.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\csrss.exe</SourceImage>
+		<SourceImage condition="end with">windows\system32\msiexec.exe</SourceImage>
+	</ProcessAccess>
+	<ProcessAccess onmatch="include">
+		<TargetImage condition="end with">lsass.exe</TargetImage>
+		<TargetImage condition="end with">winlogon.exe</TargetImage>
+		<SourceImage condition="end with">winword.exe</SourceImage>
+		<SourceImage condition="contains">\programdata\</SourceImage>
+		<SourceImage condition="contains">\appdata\</SourceImage>
+		<SourceImage condition="contains">\temp\</SourceImage>
+	</ProcessAccess>
+	
+	<CreateRemoteThread onmatch="exclude">
+		<SourceImage condition="end with">Windows\System32\svchost.exe</SourceImage>
+		<SourceImage condition="end with">Windows\System32\csrss.exe</SourceImage>
+	</CreateRemoteThread>
+	
+	<!-- Browsers usually change timestamp of downloaded files -->
+	<FileCreateTime onmatch="exclude">
+			<Image condition="end with">Internet Explorer\iexplore.exe</Image>
+			<Image condition="end with">Chrome\Application\chrome.exe</Image>
+	</FileCreateTime>
+	
+    <!-- Log all drivers except if the signature -->
+    <!-- contains Microsoft or Windows -->
+    <DriverLoad onmatch="exclude">
+		<Signature condition="contains">microsoft</Signature>
+		<Signature condition="contains">windows</Signature>
+		<Signature condition="contains">NVIDIA Corporation</Signature>
+		<Signature condition="contains">Apple</Signature>
+		<Signature condition="contains">Intel Corporation</Signature>
+		<Signature condition="contains">McAffee</Signature>
+		<Signature condition="contains">VMware</Signature>
+		<Signature condition="contains">SafeNet</Signature>
+		<Signature condition="contains">Advanced Micro Devices</Signature>
+		<Signature condition="contains">Kaspersky Lab</Signature>
+		<Signature condition="contains">OOO Searchinform</Signature>
+		<Signature condition="contains">Websense</Signature>
+		<Signature condition="contains">INFOTECS</Signature>
+		<Signature condition="contains">Crypto-Pro</Signature>
+		<Signature condition="contains">Aladdin Knowledge Systems</Signature>
+		<Signature condition="contains">Hewlett-Packard</Signature>
+		<Signature condition="contains">Samsung Electronics</Signature>
+		<Signature condition="contains">Cisco Systems</Signature>
+		<Signature condition="contains">Oracle Corporation</Signature>
+		<Signature condition="contains">Logitech Corporation</Signature>
+		<Signature condition="contains">Realtek</Signature>
+		<Signature condition="contains">Citrix Systems</Signature>
+		<Signature condition="contains">ZAO InfoWatch</Signature>
+		<Signature condition="contains">Sysinternals</Signature>
+		<Signature condition="contains">Dell</Signature>
+		<Signature condition="contains">Lenovo</Signature>
+    </DriverLoad>
+	
+	<!-- Log all dlls except if the signature -->
+    <!-- contains Microsoft or Windows -->
+	<ImageLoad onmatch="exclude">
+		<ImageLoaded condition="contains">.exe</ImageLoaded>
+		<ImageLoaded condition="contains">Windows\assembly\NativeImages</ImageLoaded>
+		<ImageLoaded condition="contains">Python27\DLLs</ImageLoaded>
+		<Signature condition="contains">Riverbed Technology</Signature>
+		<Signature condition="contains">Cortado AG</Signature>
+		<Signature condition="contains">Notepad++</Signature>
+		<Signature condition="contains">microsoft</Signature>
+		<Signature condition="contains">windows</Signature>
+		<Signature condition="contains">google</Signature>
+		<Signature condition="contains">NVIDIA Corporation</Signature>
+		<Signature condition="contains">citrix</Signature>
+		<Signature condition="contains">Apple</Signature>
+		<Signature condition="contains">Kaspersky Lab</Signature>
+		<Signature condition="contains">Intel Corporation</Signature>
+		<Signature condition="contains">Hewlett-Packard</Signature>
+		<Signature condition="contains">HP Inc</Signature>
+		<Signature condition="contains">Hewlett Packard</Signature>
+		<Signature condition="contains">Oracle America</Signature>
+		<Signature condition="contains">Adobe Systems</Signature>
+		<Signature condition="contains">Mozilla Corporation</Signature>
+		<Signature condition="contains">Cisco</Signature>
+		<Signature condition="contains">IBM</Signature>
+		<Signature condition="contains">McAffee</Signature>
+		<Signature condition="contains">VMware</Signature>
+		<Signature condition="contains">Dropbox</Signature>
+		<Signature condition="contains">SAP SE</Signature>
+		<Signature condition="contains">SAP AG</Signature>
+		<Signature condition="contains">Autodesk</Signature>
+		<Signature condition="contains">YANDEX LLC</Signature>
+		<Signature condition="contains">Symantec Corporation</Signature>
+		<Signature condition="contains">1C Company</Signature>
+		<Signature condition="contains">Dell</Signature>
+		<Signature condition="contains">Lenovo</Signature>
+		<Signature condition="contains">ABBY</Signature>
+		<Signature condition="contains">Sun Microsystems</Signature>
+		<Signature condition="contains">Oracle Corporation</Signature>
+		<Signature condition="contains">Opera Software</Signature>
+		<Signature condition="contains">INFOTECS</Signature>
+		<Signature condition="contains">Crypto-Pro</Signature>
+		<Signature condition="contains">Foxit Software Incorporated</Signature>
+		<Signature condition="contains">SafeNet</Signature>
+	</ImageLoad>
+	
+    <!-- Log network connection if the destination port equal 443 -->
+    <!-- or 80, and process isn't web-browser -->
+    <NetworkConnect onmatch="include">
+		<DestinationPort>443</DestinationPort>
+		<DestinationPort>80</DestinationPort>
+    </NetworkConnect>
+    <NetworkConnect onmatch="exclude">
+		<Image condition="end with">Internet Exploreri\explore.exe</Image>
+		<Image condition="end with">Chrome\Application\chrome.exe</Image>
+		<Image condition="end with">Skype\Phone\Skype.exe</Image>
+		<Image condition="end with">Microsoft Office\Office15\lync.exe</Image>
+		<Image condition="end with">Microsoft Office\Office15\OUTLOOK.EXE</Image>
+		<Image condition="end with">Windows\CCM\CcmExec.exe</Image>
+		<Image condition="end with">Kaspersky Lab\Kaspersky Endpoint Security 10 for Windows SP1\avpsus.exe</Image>
+    </NetworkConnect>
+  </EventFiltering>
+</Sysmon>
